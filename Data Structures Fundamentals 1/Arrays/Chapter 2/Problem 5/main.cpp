@@ -28,10 +28,10 @@ void MinMax(int arr[], int size)
 void ScoreInput()
 {
     int teams;
-    int scoreArray[teams];
-    int score;
     cout << "Enter number of teams: ";
     cin >> teams;
+    int scoreArray[teams];
+    int score;
     cout << "Enter score for the teams:" << endl;
     for (int i = 0; i < teams; i++)
     {
