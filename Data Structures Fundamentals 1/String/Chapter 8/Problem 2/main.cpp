@@ -2,9 +2,24 @@
 using namespace std;
 
 class Outscal {
-  public:     
-    int unique(string s)  {
-      //Write your code here
+private:
+    static const int MAX_CHAR = 26;
+public:     
+    int unique(string s)  
+    {
+      int frequency[MAX_CHAR] = {0};
+      for (int i = 0; i < s.length(); i++)
+      {
+        frequency[s[i] - 'a']++;
+      }
+      for(int i = 0; i < s.length(); i++)
+      {
+        if (frequency[s[i] - 'a'] == 1)
+        {
+            return i;
+        }
+      }
+      return -1;
     }
 };
 
