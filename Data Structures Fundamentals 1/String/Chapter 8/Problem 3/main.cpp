@@ -2,26 +2,31 @@
 using namespace std;
 
 class Outscal {
-private:
-    static const int MAX_CHAR = 26;
 public:
     int reverse(string a, string b) 
     {
-        int frequency[MAX_CHAR] = {0};
-        int steps = 0;
-        for (int i = 0; i < a.length(); i++)
+        int dp[b.length() + 1];
+        for (int i = 0; i <= a.length(); i++)
         {
-            frequency[a[i] - 'a']++;
+            int temp[b.length() + 1];
+            for (int j = 0; j <= b.length(); j++)
+            {
+                if(i == 0 || j == 0)
+                {
+                    temp[j] = i + j;
+                }
+                else if (a[i - 1] == b[j - 1])
+                {
+                    temp[j] = dp[j - 1];
+                }
+                else
+                {
+                    temp[j] = 1 + min(dp[j], temp[j - 1]);
+                }
+            }
+            copy(temp, temp + b.length() + 1, dp);
         }
-        for (int i = 0; i < b.length(); i++)
-        {
-            frequency[b[i] - 'a']--;
-        }
-        for (int i = 0; i < MAX_CHAR; i++)
-        {
-            steps += abs(frequency[i]);
-        }
-        return steps;
+        return dp[b.length()];
     }
 };
 
