@@ -6,6 +6,10 @@ class Node
 public:
     T data;
     Node* next;
+    ~Node()
+    {
+        std::cout << "\nNode -> " << data << " is deleted.\n";
+    }
 };
 
 template <typename P>
@@ -37,6 +41,7 @@ public:
             lastNode->next = node;
         }
     }
+    
     void Push(P value)
     {
         Node<P>* node = new Node<P>();
@@ -50,6 +55,33 @@ public:
         else
         {
             head = node;
+        }
+    }
+
+    void Remove (P value)
+    {
+        Node<P>* node = head;
+        Node<P>* prev = NULL;
+        while (node != NULL && node->data != value)
+        {
+            prev = node;
+            node = node->next;
+        }
+        if (node != NULL)
+        {
+            if (node == head)
+            {
+                head = node->next;
+            }
+            else
+            {
+                prev->next = node->next;
+            }
+            delete node;
+        }
+        else
+        {
+            std::cout << "Node not found." << std::endl;
         }
     }
 
@@ -75,16 +107,7 @@ int main()
     ll->Push(40);
     ll->Push(50);
     ll->Print();
-    ll->Append(9);
-    ll->Append(8);
-    ll->Append(7);
-    ll->Append(6);
-    ll->Append(5);
-    ll->Append(4);
-    ll->Append(3);
-    ll->Append(2);
-    ll->Append(1);
-    ll->Append(0);
+    ll->Remove(10);
     ll->Print();
     return 0;
 }
