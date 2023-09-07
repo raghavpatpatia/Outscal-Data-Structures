@@ -91,84 +91,32 @@ public:
 
 class Solution
 {
-private:
-    
-    int Precedence(char ch)
-    {
-        switch (ch)
-        {
-            case '^':
-                return 3;
-            case '/':
-            case '*':
-                return 2;
-            case '+':
-            case '-':
-                return 1;
-            default:
-                return -1;            
-        }
-    }
-
 public:
-    
-    void InfixtoPostfix(string infix)
+    bool isBalanced (string expression)
     {
-        Stack<char> st;
-        string result;
-        try
+        Stack<char> stack;
+        for (int i = 0; i < expression.length(); i++)
         {
-            for (int i = 0; i < infix.length(); i++)
+            if (expression[i] == '(')
             {
-                char ch = infix[i];
-
-                if ((ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z') || (ch >= '0' && ch <= '9'))
-                    result += ch;
-                
-                else if (ch == '(')
-                    st.Push(ch);
-                
-                else if (ch == ')')
-                {
-                    while (st.Peek() != '(')
-                    {   
-                        result += st.Peek();
-                        st.Pop();
-                    }
-                    st.Pop();
-                }
-
-                else
-                {
-                    while (!st.IsEmpty() && Precedence(infix[i]) <= Precedence(st.Peek()))
-                    {
-                        result += st.Peek();
-                        st.Pop();
-                    }
-                    st.Push(ch);
-                }
+                stack.Push(expression[i]);
             }
-
-            while (!st.IsEmpty())
+            else if (expression[i] == ')')
             {
-                result += st.Peek();
-                st.Pop();
+                if (stack.IsEmpty()) return false;
+                stack.Pop();
             }
-            cout << result << endl;
         }
-        catch (std::out_of_range& e)
-        {
-            cout << "Invalid expression: Mismatched parentheses" << endl;
-        }
+        return stack.IsEmpty();
     }
 };
 
 int main()
 {
-    string infixExpression;
+    string expression;
     Solution solution;
-    cout << "Enter your infix expression: ";
-    getline(cin, infixExpression);
-    solution.InfixtoPostfix(infixExpression);
+    cout << "Enter your expression: ";
+    getline(cin, expression);
+    cout << "Is Expression balanced: " << (solution.isBalanced(expression) ? "true" : "false") << endl;
     return 0;
 }
